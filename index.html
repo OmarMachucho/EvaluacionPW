@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta title="author" content="Omar Machucho">
+    <meta name="description" content="Carga y visualización de archivos CSV">
+    <meta name="keys" content="CSV, tables, upload">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>    
+    <script src="script2.js"></script>
+    <script src="script.js"></script>
+    <title>Tablas CSV</title>  
+    </head>
+
+    <body>
+        <main id="contenedor">
+            <!-- formulario -->
+            <section class="formulario">
+                <!-- header-->
+                    <header>
+                        <h1>Formulario para subir archivo CSV</h1>
+                    </header>
+                <!-- header-->
+                <div class="well">
+                    <div class="row">
+                        <!--Renglón subir archivo-->
+                        <form class="form-inline" name="frmSubirCSV" id="frmSubirCSV" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                            <label for="files">Abrir archivo CSV:</label>
+                            <input type="file" id="files"  class="form-control" accept=".csv" required />
+                            </div>
+                            <div class="form-group">
+                            <button type="submit" id="construirTabla" class="btn btn-primary" style="background-color: lightseagreen;">Procesar</button>
+                            </div>
+                        </form> 
+                        <!--Renglón subir archivo-->       
+                    </div>
+                </div> 
+                <!--tabla-->
+                <div class="tabla" id="tablas">
+                <!--tabla-->
+                </div>   
+            </section>
+            <!-- ./formulario -->    
+        </main>
+    </body>
+
+</html>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#construirTabla').on("click",function(e){
+		e.preventDefault();
+		$('#files').parse({
+			config: {
+				delimiter: "auto",
+				complete: displayHTMLTable,
+			},
+			before: function(file, inputElem){},
+			error: function(err, file){},
+			complete: function(){}
+		});
+    });
+	function displayHTMLTable(results){
+        //Se inicia la variable a la cual se le concatenarán las etiquetas
+        //Y el contenido de la tabla
+		var table = "<table class='table'>";
+		var data = results.data; 
+		for(i=0;i<data.length;i++){
+			table+= "<tr>";
+			var row = data[i];
+			var cells = row.join(",").split(","); 
+			for(j=0;j<cells.length;j++){
+				table+= "<td>";
+				table+= cells[j];
+				table+= "</td>";
+			}
+			table+= "</tr>";
+		}
+		table+= "</table>";
+		$("#tablas").html(table);
+	}
+  });
+</script>
