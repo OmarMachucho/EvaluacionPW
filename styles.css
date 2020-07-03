@@ -35,3 +35,9 @@ table, td, tr{
 	font-size: 40px;
 	text-align: center;
 }
+td:hover {
+    background-color: #cbf5eb;
+    color: #00499c;
+    transition: 0.1s;
+    cursor: pointer;
+}
