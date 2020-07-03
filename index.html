@@ -74,7 +74,8 @@
 			var row = data[i];
 			var cells = row.join(",").split(","); 
 			for(j=0;j<cells.length;j++){
-				table+= "<td>";
+				if (i==0)table+= '<td onclick=\'alert("Columna ' + (j+1) + '")\'>';
+				else table+= "<td>";
 				table+= cells[j];
 				table+= "</td>";
 			}
